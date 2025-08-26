@@ -173,7 +173,7 @@ export default function SalePage() {
       <img
         src={companyLogo}
         alt="Company Logo"
-        className="w-100 h-44 mt-10 mb-8 z-10 drop-shadow-[0_0_30px_rgba(255,215,0,1)]"
+        className="w-120 h-100 mt-10 mb-1 z-10 drop-shadow-[0_0_30px_rgba(255,215,0,1)]"
       />
       {/*รายละเอียด*/}
       <h2 className="text-4xl font-extrabold text-white-500 mb-8 text-center drop-shadow-lg z-10 animate-flicker">
