@@ -44,6 +44,7 @@ const banks = [
 ];
 
 // ✅ ฟังก์ชันสุ่มธุรกรรม
+// ✅ ฟังก์ชันสุ่มธุรกรรม (เพิ่มโอกาสถอนหลักหมื่นแบบไม่บ่อย)
 const generateFakeSale = () => {
   const names = ["090X", "084X", "087X", "096X", "099X", "085X", "093X"];
   const now = new Date();
@@ -56,12 +57,27 @@ const generateFakeSale = () => {
   });
   const randomName = names[Math.floor(Math.random() * names.length)];
   const randomBank = banks[Math.floor(Math.random() * banks.length)];
+
+  let amount;
+  const chance = Math.random();
+
+  if (chance < 0.75) {
+    // 75% ถอนปกติ 500 - 5000
+    amount = Math.floor(Math.random() * 4500) + 500;
+  } else if (chance < 0.10 + 0.75) {
+    // 10% ถอนใหญ่ 5000 - 9999
+    amount = Math.floor(Math.random() * 5000) + 5000;
+  } else {
+    // 15% ถอนหลักหมื่น (10,000 - 50,000)
+    amount = Math.floor(Math.random() * 40000) + 10000;
+  }
+
   return {
     id: Date.now(),
     name: randomName,
     bank: randomBank.name,
     logo: randomBank.logo,
-    amount: (Math.floor(Math.random() * 5000) + 500).toLocaleString(),
+    amount: amount.toLocaleString(),
     date: dateStr,
     time: timeStr,
   };
