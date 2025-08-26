@@ -164,7 +164,7 @@ export default function SalePage() {
         เว็บตรงอับดับ 1
       </h2>
       <h2 className="text-2l font-extrabold text-white-500 mb-5 text-center drop-shadow-lg z-10 ">
-        การันตีแตก 300% ตั้งแต่ครั้งแรก
+        การันตีแตก 300% ตั้งแต่ครั้งแรก🎊
       </h2>
       {/* ปุ่ม */}
       <div className="flex flex-col md:flex-row gap-6 mb-12 justify-center items-center z-10">
