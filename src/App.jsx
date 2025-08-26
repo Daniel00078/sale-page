@@ -252,7 +252,7 @@ export default function SalePage() {
                 🟢 ออนไลน์ {onlineCounts[idx].toLocaleString()}
               </p>
               <a
-                href="https://ceetong1.com/register?f=MDk0NDQ0NDQ0NA=="
+                href="https://line.me/ti/p/@859avxgd"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-8 py-3 
