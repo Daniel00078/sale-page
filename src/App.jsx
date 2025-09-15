@@ -60,7 +60,6 @@ const generateFakeSale = () => {
 
   let amount;
   const chance = Math.random();
-
   if (chance < 0.75) {
     amount = Math.floor(Math.random() * 4500) + 500;
   } else if (chance < 0.85) {
@@ -81,16 +80,38 @@ const generateFakeSale = () => {
 };
 
 export default function SalePage() {
+  // ✅ ธุรกรรม
   const [sales, setSales] = useState(() =>
     Array.from({ length: 1 }, () => generateFakeSale())
   );
 
+  // ✅ ออนไลน์
   const [onlineCounts, setOnlineCounts] = useState(() =>
     Array.from({ length: 6 }, () => Math.floor(Math.random() * 3000) + 100)
   );
 
+  // ✅ Carousel
   const images = [banner1, banner2, banner3];
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // ✅ Lazy load เกม
+  const games = [game1, game2, game3, game4, game5, game6];
+  const [loadedGames, setLoadedGames] = useState(
+    Array(games.length).fill(false)
+  );
+
+  useEffect(() => {
+    games.forEach((game, idx) => {
+      const timer = setTimeout(() => {
+        setLoadedGames((prev) => {
+          const newState = [...prev];
+          newState[idx] = true;
+          return newState;
+        });
+      }, idx * 300); // โหลดทีละเกม 300ms
+      return () => clearTimeout(timer);
+    });
+  }, []);
 
   // ✅ อัปเดตธุรกรรมทุก 3 วิ
   useEffect(() => {
@@ -124,10 +145,7 @@ export default function SalePage() {
       <div className="absolute inset-0">
         <img
           src={bg2}
-          srcSet={`${bg2} 480w, ${bg2} 1024w`}
-          sizes="(max-width: 768px) 480px, 1024px"
           alt="Background"
-          loading="lazy"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/70" />
@@ -137,10 +155,8 @@ export default function SalePage() {
       <img
         src={companyLogo}
         alt="Company Logo"
-        loading="lazy"
         className="w-120 h-100 mt-10 mb-1 z-10 drop-shadow-[0_0_30px_rgba(255,215,0,1)]"
       />
-
       <h2 className="text-4xl font-extrabold mb-8 text-center drop-shadow-lg z-10 animate-flicker">
         เว็บตรงอันดับ 1
       </h2>
@@ -154,29 +170,17 @@ export default function SalePage() {
           href="https://line.me/ti/p/@859avxgd"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative inline-flex items-center justify-center px-12 py-4 
-                bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400
-                text-black font-extrabold text-xl rounded-full 
-                shadow-[0_0_30px_5px_rgba(255,215,0,0.9)]
-                overflow-hidden group transition transform hover:scale-110 duration-500
-                animate-super-button"
+          className="relative inline-flex items-center justify-center px-12 py-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-black font-extrabold text-xl rounded-full shadow-[0_0_30px_5px_rgba(255,215,0,0.9)] overflow-hidden group transition transform hover:scale-110 duration-500 animate-super-button"
         >
           <span className="relative z-10">✨ สมัครสมาชิก</span>
         </a>
-
         <a
           href="https://line.me/ti/p/@859avxgd"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative inline-flex items-center gap-3 px-10 py-4 
-               bg-gradient-to-r from-green-500 to-green-600 
-               text-white font-bold text-lg rounded-full 
-               shadow-lg shadow-green-500/40
-               hover:scale-110 hover:shadow-green-300/70 
-               transition transform duration-500
-               overflow-hidden group"
+          className="relative inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-lg rounded-full shadow-lg shadow-green-500/40 hover:scale-110 hover:shadow-green-300/70 transition transform duration-500 overflow-hidden group"
         >
-          <img src={lineLogo} alt="LINE" loading="lazy" className="w-7 h-7 relative z-10" />
+          <img src={lineLogo} alt="LINE" className="w-7 h-7 relative z-10" />
           <span className="relative z-10">ติดต่อสอบถาม</span>
         </a>
       </div>
@@ -194,7 +198,6 @@ export default function SalePage() {
             <img
               src={sale.logo}
               alt={sale.bank}
-              loading="lazy"
               className="w-20 h-20 object-contain rounded-xl bg-gray-200 p-2"
             />
             <div className="ml-5">
@@ -215,24 +218,29 @@ export default function SalePage() {
         🎮 เกมฮิต
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl mx-auto mb-16 z-10">
-        {[game1, game2, game3, game4, game5, game6].map((game, idx) => (
-          <div key={idx} className="relative group rounded-3xl overflow-hidden shadow-2xl">
-            <img
-              src={game}
-              alt={`Game ${idx + 1}`}
-              loading="lazy"
-              className="w-full h-64 object-cover group-hover:brightness-110 transition duration-500"
-            />
+        {games.map((game, idx) => (
+          <div
+            key={idx}
+            className="relative group rounded-3xl overflow-hidden shadow-2xl border-2 border-yellow-500/40 hover:shadow-yellow-400/80 transition transform hover:-translate-y-2 hover:scale-105 duration-500"
+          >
+            {loadedGames[idx] ? (
+              <img
+                src={game}
+                alt={`Game ${idx + 1}`}
+                className="w-full h-64 object-cover group-hover:brightness-110 transition duration-500"
+              />
+            ) : (
+              <div className="w-full h-64 bg-gray-800 animate-pulse" />
+            )}
             <div className="absolute bottom-6 left-0 right-0 text-center space-y-3">
-              <p className="text-lg font-bold text-yellow-300 drop-shadow-md">
+              <p className="text-lg md:text-xl font-bold text-yellow-300 drop-shadow-md">
                 🟢 ออนไลน์ {onlineCounts[idx].toLocaleString()}
               </p>
               <a
                 href="https://line.me/ti/p/@859avxgd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 
-                  text-black font-extrabold text-lg rounded-full"
+                className="inline-block px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-extrabold text-lg rounded-full shadow-lg shadow-yellow-500/40 hover:scale-110 hover:shadow-yellow-400/70 transition transform duration-500"
               >
                 เล่นเลย 🚀
               </a>
@@ -249,10 +257,7 @@ export default function SalePage() {
         <div className="rounded-3xl overflow-hidden shadow-2xl">
           <img
             src={images[currentIndex]}
-            srcSet={`${images[currentIndex]} 480w, ${images[currentIndex]} 1024w`}
-            sizes="(max-width: 768px) 480px, 1024px"
             alt={`Banner ${currentIndex + 1}`}
-            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
@@ -263,7 +268,6 @@ export default function SalePage() {
         <img
           src={cer}
           alt="Single Banner"
-          loading="lazy"
           className="w-full h-full object-cover rounded-3xl shadow-2xl"
         />
       </div>
@@ -271,41 +275,18 @@ export default function SalePage() {
         <img
           src={mm}
           alt="Single Banner"
-          loading="lazy"
           className="w-full h-full object-cover rounded-3xl shadow-2xl"
         />
-      </div>{/* CSS Animation */}
+      </div>
+
+      {/* CSS Animation */}
       <style>{`
-        @keyframes sparkle {
-          0% { transform: translateY(0) scale(1); opacity: 0.4; }
-          50% { transform: translateY(-30px) scale(1.4); opacity: 1; }
-          100% { transform: translateY(0) scale(1); opacity: 0.4; }
-        }
-        .animate-sparkle { animation: sparkle infinite; }
-
-        .animate-bounce-slow { animation: bounce 4s infinite; }
-
         @keyframes flicker {
           0%,19%,21%,23%,25%,54%,56%,100% { opacity:1; text-shadow:0 0 8px #FFA500, 0 0 20px #000000ff, 0 0 30px #FFA500; }
           20%,24%,55% { opacity:0.4; text-shadow:none; }
         }
         .animate-flicker { animation: flicker 3s infinite; }
-
-        /* Shooting star effect */
-        @keyframes shooting-star {
-          0% {
-            transform: translateX(0) translateY(0) scale(1);
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(300px) translateY(200px) scale(0.5);
-            opacity: 0;
-          }
-        }
-        .animate-shooting-star {
-          animation: shooting-star 4s linear infinite;
-        }
-          .animate-super-button {
+        .animate-super-button {
           background: linear-gradient(270deg, #FFD700, #FFEC8B, #FFC700, #FFE066);
           background-size: 600% 600%;
           color: black;
@@ -315,23 +296,12 @@ export default function SalePage() {
           box-shadow: 0 0 15px rgba(255,215,0,0.6);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .animate-super-button:hover {
           transform: scale(1.1);
           box-shadow: 0 0 35px rgba(255,215,0,1), 0 0 50px rgba(255,255,200,0.8);
         }
-
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
-        @keyframes pulseGlow {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,215,0,0.6); }
-          50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.9); }
-        }
-
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes pulseGlow { 0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,215,0,0.6); } 50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.9); } }
       `}</style>
     </div>
   );
