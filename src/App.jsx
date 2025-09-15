@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-// ✅ import โลโก้บริษัท
+// ✅ โลโก้บริษัท
 import companyLogo from "./assets/ceetong.png";
 import lineLogo from "./assets/line.webp";
 
-// ✅ import โลโก้ธนาคาร
+// ✅ โลโก้ธนาคาร
 import k from "./assets/banks/k.webp";
 import scb from "./assets/banks/scb.webp";
 import k1 from "./assets/banks/k1.webp";
@@ -12,7 +12,7 @@ import bbl from "./assets/banks/bbl.webp";
 import ttb from "./assets/banks/ttb.webp";
 import ktb from "./assets/banks/ktb.webp";
 
-// ✅ import รูปเกม
+// ✅ เกม
 import game1 from "./assets/games/game1.webp";
 import game2 from "./assets/games/game2.webp";
 import game3 from "./assets/games/game3.webp";
@@ -20,14 +20,16 @@ import game4 from "./assets/games/game4.webp";
 import game5 from "./assets/games/game5.webp";
 import game6 from "./assets/games/game6.webp";
 
-// ✅ import รูป carousel
+// ✅ Carousel
 import banner1 from "./assets/banners/banner1.webp";
 import banner2 from "./assets/banners/banner2.webp";
 import banner3 from "./assets/banners/banner3.webp";
+
+// ✅ Banner เดี่ยว
 import cer from "./assets/banners/cer.webp";
 import mm from "./assets/banners/mm.webp";
 
-// ✅ import พื้นหลัง
+// ✅ Background
 import bg1 from "./assets/bg/bg1.jpg";
 import bg2 from "./assets/bg/bg2.webp";
 import bg3 from "./assets/bg/bg3.jpg";
@@ -44,7 +46,7 @@ const banks = [
   { name: "กรุงไทย", logo: ktb },
 ];
 
-// ✅ ฟังก์ชันสุ่มธุรกรรม
+// ✅ สร้างธุรกรรมปลอม
 const generateFakeSale = () => {
   const names = ["090X", "084X", "087X", "096X", "099X", "085X", "093X"];
   const now = new Date();
@@ -80,25 +82,23 @@ const generateFakeSale = () => {
 };
 
 export default function SalePage() {
-  // ✅ ธุรกรรม
+  // ธุรกรรม
   const [sales, setSales] = useState(() =>
     Array.from({ length: 1 }, () => generateFakeSale())
   );
 
-  // ✅ ออนไลน์
+  // ออนไลน์
   const [onlineCounts, setOnlineCounts] = useState(() =>
     Array.from({ length: 6 }, () => Math.floor(Math.random() * 3000) + 100)
   );
 
-  // ✅ Carousel
+  // Carousel
   const images = [banner1, banner2, banner3];
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ Lazy load เกม
+  // Lazy load เกม
   const games = [game1, game2, game3, game4, game5, game6];
-  const [loadedGames, setLoadedGames] = useState(
-    Array(games.length).fill(false)
-  );
+  const [loadedGames, setLoadedGames] = useState(Array(games.length).fill(false));
 
   useEffect(() => {
     games.forEach((game, idx) => {
@@ -113,7 +113,7 @@ export default function SalePage() {
     });
   }, []);
 
-  // ✅ อัปเดตธุรกรรมทุก 3 วิ
+  // อัปเดตธุรกรรมทุก 3 วิ
   useEffect(() => {
     const interval = setInterval(() => {
       setSales((prev) => [generateFakeSale(), ...prev].slice(0, 4));
@@ -121,7 +121,7 @@ export default function SalePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // ✅ อัปเดตจำนวนออนไลน์ทุก 5 วิ
+  // อัปเดตจำนวนออนไลน์ทุก 5 วิ
   useEffect(() => {
     const interval = setInterval(() => {
       setOnlineCounts((prev) =>
@@ -131,7 +131,7 @@ export default function SalePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // ✅ Carousel auto slide ทุก 3 วิ
+  // Carousel auto slide ทุก 3 วิ
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -141,7 +141,7 @@ export default function SalePage() {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center text-white overflow-hidden">
-      {/* พื้นหลัง */}
+      {/* Background */}
       <div className="absolute inset-0">
         <img
           src={bg2}
