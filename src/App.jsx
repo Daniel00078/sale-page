@@ -281,12 +281,36 @@ export default function SalePage() {
 
       {/* CSS Animation */}
       <style>{`
+        @keyframes sparkle {
+          0% { transform: translateY(0) scale(1); opacity: 0.4; }
+          50% { transform: translateY(-30px) scale(1.4); opacity: 1; }
+          100% { transform: translateY(0) scale(1); opacity: 0.4; }
+        }
+        .animate-sparkle { animation: sparkle infinite; }
+
+        .animate-bounce-slow { animation: bounce 4s infinite; }
+
         @keyframes flicker {
           0%,19%,21%,23%,25%,54%,56%,100% { opacity:1; text-shadow:0 0 8px #FFA500, 0 0 20px #000000ff, 0 0 30px #FFA500; }
           20%,24%,55% { opacity:0.4; text-shadow:none; }
         }
         .animate-flicker { animation: flicker 3s infinite; }
-        .animate-super-button {
+
+        /* Shooting star effect */
+        @keyframes shooting-star {
+          0% {
+            transform: translateX(0) translateY(0) scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(300px) translateY(200px) scale(0.5);
+            opacity: 0;
+          }
+        }
+        .animate-shooting-star {
+          animation: shooting-star 4s linear infinite;
+        }
+          .animate-super-button {
           background: linear-gradient(270deg, #FFD700, #FFEC8B, #FFC700, #FFE066);
           background-size: 600% 600%;
           color: black;
@@ -296,12 +320,23 @@ export default function SalePage() {
           box-shadow: 0 0 15px rgba(255,215,0,0.6);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .animate-super-button:hover {
           transform: scale(1.1);
           box-shadow: 0 0 35px rgba(255,215,0,1), 0 0 50px rgba(255,255,200,0.8);
         }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes pulseGlow { 0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,215,0,0.6); } 50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.9); } }
+
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseGlow {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,215,0,0.6); }
+          50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.9); }
+        }
+
       `}</style>
     </div>
   );
